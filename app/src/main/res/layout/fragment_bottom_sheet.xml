@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp"
+        tools:context=".BottomSheet"
+        android:background="#313536">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvcredit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingVertical="10dp"
+                    android:text="Inclome(Credit)"
+                    android:textColor="#CDE7E4"
+                    android:backgroundTint="#324A4A"
+                    android:background="@drawable/leftround" />
+
+                <TextView
+                    android:id="@+id/tvDebit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingVertical="10dp"
+                    android:text="Expense (Debit)"
+                    android:textColor="#9D9D9F"
+                    android:backgroundTint="#324A4A"
+                    android:background="@drawable/rightround" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="40dp">
+
+
+                <EditText
+                    android:id="@+id/etText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Text"
+                    android:textColor="#9D9D9F"
+                    android:textColorHint="#9D9D9F"
+                    android:layout_weight="1" />
+
+                <EditText
+                    android:id="@+id/edAmmount"
+                    android:inputType="number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Ammonunt"
+                    android:textColor="#9D9D9F"
+                    android:textColorHint="#9D9D9F" />
+
+                <ImageView
+                    android:id="@+id/ivAdd"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/correct" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </FrameLayout>
+</layout>

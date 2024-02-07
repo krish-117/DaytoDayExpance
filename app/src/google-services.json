@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "550675130343",
+    "project_id": "day-to-day-expance",
+    "storage_bucket": "day-to-day-expance.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:550675130343:android:49ea001d1eef748629bf42",
+        "android_client_info": {
+          "package_name": "com.example.daytodayexpance"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhO_A-Y7okF2jODfbXX674Pyg9LsqY-z4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
