@@ -1,18 +1,18 @@
 package com.example.daytodayexpance;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.daytodayexpance.databinding.FragmentBottomSheetBinding;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -79,7 +79,6 @@ public class BottomSheet extends BottomSheetDialogFragment {
                         return;
                     }
                 }
-
                 if (c_d == 0
                 ) {
                     databaseReference.child("Data").child(Email).child(Year).child(Month).child(Date).child("Cedit").child(text).setValue(amountText);

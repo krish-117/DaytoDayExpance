@@ -72,29 +72,111 @@ public class MonthlyRecyclerAdapter extends RecyclerView.Adapter<MonthlyRecycler
             binding.date.setText(date + " " + currentMonth + "," + currentYear);
 
             setupDebitTransactions(date);
-            setupCreditTransactions(date);
         }
+
 
         private void setupDebitTransactions(String date) {
-            List<String> list3 = new ArrayList<>();
-            List<String> list4 = new ArrayList<>();
-
-            ArrayAdapter<String> adapter3 = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, list3);
-            binding.lv3.setAdapter(adapter3);
-            ArrayAdapter<String> adapter4 = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, list4);
-            binding.lv4.setAdapter(adapter4);
 
             databaseReference.child("Data").child(email.replace('.', ','))
-                    .child(currentYear).child(currentMonth).child(date).child("Debit")
-                    .addChildEventListener(new ChildEventListener() {
+                    .child(currentYear).child(currentMonth).addChildEventListener(new ChildEventListener() {
+
+                        int total = 0;
+
                         @Override
                         public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                            list3.add(snapshot.getKey());
-                            list4.add(snapshot.getValue().toString());
-                            adapter3.notifyDataSetChanged();
-                            adapter4.notifyDataSetChanged();
-                            setListViewHeight(binding.lv3);
-                            setListViewHeight(binding.lv4);
+                            List<String> list3 = new ArrayList<>();
+                            List<String> list4 = new ArrayList<>();
+                            total = 0;
+
+                            databaseReference.child("Data").child(email.replace('.', ','))
+                                    .child(currentYear).child(currentMonth).child(date).child("Debit")
+                                    .addChildEventListener(new ChildEventListener() {
+                                        int balc = 0;
+                                        int bald = 0;
+                                        @Override
+                                        public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                                            list3.add(snapshot.getKey());
+                                            list4.add(snapshot.getValue().toString());
+                                            bald += Integer.parseInt(snapshot.getValue().toString());
+                                            total -= bald;
+                                            ArrayAdapter<String> adapter3 = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, list3);
+                                            binding.lv3.setAdapter(adapter3);
+                                            ArrayAdapter<String> adapter4 = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, list4);
+                                            binding.lv4.setAdapter(adapter4);
+                                            setListViewHeight(binding.lv3);
+                                            setListViewHeight(binding.lv4);
+                                            binding.tvTotal.setText(String.valueOf(total/key_debit.size()));
+                                        }
+
+                                        @Override
+                                        public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                                        }
+
+                                        @Override
+                                        public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                                        }
+
+                                        @Override
+                                        public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+
+                                    });
+
+                            List<String> list1 = new ArrayList<>();
+                            List<String> list2 = new ArrayList<>();
+
+
+                            databaseReference.child("Data").child(email.replace('.', ','))
+                                    .child(currentYear).child(currentMonth).child(date).child("Cedit")
+                                    .addChildEventListener(new ChildEventListener() {
+                                        int balc = 0;
+                                        int bald = 0;
+
+                                        @Override
+                                        public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                                            list1.add(snapshot.getKey());
+                                            list2.add(snapshot.getValue().toString());
+                                            balc += Integer.parseInt(snapshot.getValue().toString());
+                                            total += balc;
+                                            ArrayAdapter<String> adapter1 = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, list1);
+                                            binding.lv1.setAdapter(adapter1);
+                                            ArrayAdapter<String> adapter2 = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, list2);
+                                            binding.lv2.setAdapter(adapter2);
+                                            adapter1.notifyDataSetChanged();
+                                            adapter2.notifyDataSetChanged();
+                                            setListViewHeight(binding.lv1);
+                                            setListViewHeight(binding.lv2);
+                                            binding.tvTotal.setText(String.valueOf(total/key_debit.size()));
+                                        }
+
+                                        @Override
+                                        public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                                        }
+
+                                        @Override
+                                        public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                                        }
+
+                                        @Override
+                                        public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
                         }
 
                         @Override
@@ -116,52 +198,9 @@ public class MonthlyRecyclerAdapter extends RecyclerView.Adapter<MonthlyRecycler
                         public void onCancelled(@NonNull DatabaseError error) {
 
                         }
-
                     });
-        }
 
-        private void setupCreditTransactions(String date) {
-            List<String> list1 = new ArrayList<>();
-            List<String> list2 = new ArrayList<>();
 
-            ArrayAdapter<String> adapter1 = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, list1);
-            binding.lv1.setAdapter(adapter1);
-            ArrayAdapter<String> adapter2 = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, list2);
-            binding.lv2.setAdapter(adapter2);
-
-            databaseReference.child("Data").child(email.replace('.', ','))
-                    .child(currentYear).child(currentMonth).child(date).child("Cedit")
-                    .addChildEventListener(new ChildEventListener() {
-                        @Override
-                        public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                            list1.add(snapshot.getKey());
-                            list2.add(snapshot.getValue().toString());
-                            adapter1.notifyDataSetChanged();
-                            adapter2.notifyDataSetChanged();
-                            setListViewHeight(binding.lv1);
-                            setListViewHeight(binding.lv2);
-                        }
-
-                        @Override
-                        public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                        }
-
-                        @Override
-                        public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-                        }
-
-                        @Override
-                        public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
         }
     }
 

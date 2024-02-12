@@ -1,19 +1,25 @@
 package com.example.daytodayexpance;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+
 import com.example.daytodayexpance.databinding.FragmentMonthlyBinding;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,6 +37,8 @@ public class MonthlyFragment extends Fragment {
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private List<String> debitKeys = new ArrayList<>();
+    int balc;
+    int bald;
 
     public MonthlyFragment() {
         // Required empty public constructor
@@ -64,7 +72,6 @@ public class MonthlyFragment extends Fragment {
 
         setData();
         init();
-
         return binding.getRoot();
     }
 
@@ -97,14 +104,82 @@ public class MonthlyFragment extends Fragment {
         MonthlyRecyclerAdapter monthlyRecyclerAdapter = new MonthlyRecyclerAdapter(debitKeys, userEmail, currentMonth, currentYear);
         binding.rv.setAdapter(monthlyRecyclerAdapter);
 
+
+
         databaseReference.child("Data").child(userEmail.replace('.', ','))
                 .child(currentYear).child(currentMonth)
                 .addChildEventListener(new ChildEventListener() {
+
+                    int balc , bald;
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                         debitKeys.add(snapshot.getKey());
                         MonthlyRecyclerAdapter updatedAdapter = new MonthlyRecyclerAdapter(debitKeys, userEmail, currentMonth, currentYear);
                         binding.rv.setAdapter(updatedAdapter);
+
+                        databaseReference.child("Data").child(userEmail.replace('.', ','))
+                                .child(currentYear).child(currentMonth).child(snapshot.getKey()).child("Debit")
+                                .addChildEventListener(new ChildEventListener() {
+
+                                    @Override
+                                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                                        bald+=Integer.parseInt(snapshot.getValue().toString());
+                                        binding.tvTotal.setText(String.valueOf(balc - bald));
+                                    }
+
+                                    @Override
+                                    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                                    }
+
+                                    @Override
+                                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                                    }
+
+                                    @Override
+                                    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+
+                                });
+
+                        databaseReference.child("Data").child(userEmail.replace('.', ','))
+                                .child(currentYear).child(currentMonth).child(snapshot.getKey()).child("Cedit")
+                                .addChildEventListener(new ChildEventListener() {
+                                    @Override
+                                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                                        balc+=Integer.parseInt(snapshot.getValue().toString());
+                                        binding.tvTotal.setText(String.valueOf(balc - bald));
+                                    }
+
+                                    @Override
+                                    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                                    }
+
+                                    @Override
+                                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                                    }
+
+                                    @Override
+                                    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+
+
                     }
 
                     @Override
@@ -128,4 +203,6 @@ public class MonthlyFragment extends Fragment {
                     }
                 });
     }
+
+
 }
